@@ -66,3 +66,6 @@ typings/
 
 # IDE
 .idea
+
+# Misc
+*.tar.gz
