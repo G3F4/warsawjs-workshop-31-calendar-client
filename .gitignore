@@ -17,6 +17,10 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
+
+# Build directory used by tools like webpack
+build
+
 # nyc test coverage
 .nyc_output
 
@@ -59,3 +63,6 @@ typings/
 
 # next.js build output
 .next
+
+# IDE
+.idea
