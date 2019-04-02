@@ -1,7 +1,6 @@
 {
   "name": "warsawjs-workshop-31-calendar-client",
   "version": "0.1.0",
-  "homepage": "https://g3f4.github.io/warsawjs-workshop-31-calendar-client",
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@material-ui/core": "3.9.2",
