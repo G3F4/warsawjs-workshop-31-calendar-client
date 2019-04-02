@@ -94,8 +94,10 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
   }
 
   public handleSave = async () => {
+    let status: number = 0;
+
     if (this.props.event) {
-      const { status } = await fetch(`event?id=${this.props.event.id}`, {
+      const response = await fetch(`event?id=${this.props.event.id}`, {
         body: JSON.stringify(this.state.event),
         credentials: "same-origin",
         headers: {
@@ -105,11 +107,9 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
         method: "PUT",
       });
 
-      if (status === 200) {
-        this.handleClose();
-      }
+      status = response.status;
     } else {
-      const { status } = await fetch("event", {
+      const response = await fetch("event", {
         body: JSON.stringify(this.state.event),
         credentials: "same-origin",
         headers: {
@@ -119,9 +119,11 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
         method: "POST",
       });
 
-      if (status === 201) {
-        this.handleClose();
-      }
+      status = response.status;
+    }
+
+    if (status === 200 || status === 201) {
+      this.handleClose();
     }
   }
 

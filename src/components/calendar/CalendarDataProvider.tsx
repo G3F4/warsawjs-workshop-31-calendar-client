@@ -1,11 +1,10 @@
+import { Typography } from "@material-ui/core"
 import { StyledComponentProps, Theme, withStyles } from "@material-ui/core/styles";
 // @ts-ignore
 import useFetch from "fetch-suspense";
 import { Moment } from "moment-timezone/moment-timezone";
 import React from "react";
 import Calendar from "./Calendar";
-
-export const DAYS = ["Mon", "Thu", "Wed", "Thr", "Fri", "Sat", "Sun"];
 
 const styles = (theme: Theme) => ({
   day: {
@@ -14,6 +13,9 @@ const styles = (theme: Theme) => ({
     },
     "border": "solid 1px #eee",
     "color": theme.palette.text.secondary,
+  },
+  error: {
+    textAlign: "center",
   },
   eventTitle: {
     whiteSpace: "nowrap",
@@ -35,6 +37,10 @@ export interface IDay {
   events: ICalendarEvent[];
 }
 
+export interface ICalendarDataProviderResponse {
+  data: IDay[];
+}
+
 export interface ICalendarDataProviderProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
   selectedDay: Moment;
 
@@ -43,14 +49,28 @@ export interface ICalendarDataProviderProps extends StyledComponentProps<keyof R
 
 function CalendarDataProvider(props: ICalendarDataProviderProps) {
   const { classes, selectedDay, onChange } = props;
-  const { data }: { data: IDay[]; } = useFetch(`/calendar?month=${selectedDay.format("YYYY-MM")}`, { method: "GET" });
+  const response: ICalendarDataProviderResponse =
+    useFetch(`/calendar?month=${selectedDay.format("YYYY-MM")}`, { method: "GET" });
 
   if (!classes) {
     throw new Error(`error loading styles`);
   }
 
+  if (!response.data) {
+    return (
+      <div className={classes.error}>
+        <Typography component="h2" variant="h4" gutterBottom>
+          ERROR!
+        </Typography>
+        <Typography variant="button" gutterBottom>
+          {response}
+        </Typography>
+      </div>
+    );
+  }
+
   return (
-    <Calendar selectedDay={selectedDay} list={data} onChange={onChange} />
+    <Calendar selectedDay={selectedDay} list={response.data} onChange={onChange} />
   );
 }
 

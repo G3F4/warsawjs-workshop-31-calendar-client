@@ -2,6 +2,7 @@
 import { StyledComponentProps, Theme, withStyles } from "@material-ui/core/styles";
 import { Moment } from "moment-timezone/moment-timezone";
 import React, { Suspense } from "react";
+import ErrorBoundary from "../ErrorBoundary"
 import DayDataProvider from "./DayDataProvider";
 
 const styles = () => ({
@@ -23,9 +24,11 @@ function DayContainer(props: ICalendarContainerProps) {
 
   return (
     <div className={classes.root}>
-      <Suspense fallback="Loading...">
-        <DayDataProvider selectedDay={selectedDay} />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback="Loading...">
+          <DayDataProvider selectedDay={selectedDay} />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

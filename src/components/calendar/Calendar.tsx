@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import classnames from "classnames";
 import { Moment } from "moment-timezone/moment-timezone";
 import moment from "moment-timezone/moment-timezone";
-import React, { Fragment } from "react";
+import React from "react";
 import { IDay } from "./CalendarDataProvider";
 
 export const DAYS = ["Mon", "Thu", "Wed", "Thr", "Fri", "Sat", "Sun"];
@@ -20,6 +20,11 @@ const styles = (theme: Theme) => ({
   },
   eventTitle: {
     whiteSpace: "nowrap",
+  },
+  root: {
+    display: "grid",
+    gridTemplateColumns: "14.28% 14.28% 14.28% 14.28% 14.28% 14.28% 14.28%",
+    gridTemplateRows: "16.66% 16.66% 16.66% 16.66% 16.66% 16.66%%",
   },
   selected: {
     background: "#eee",
@@ -43,7 +48,7 @@ function Calendar(props: ICalendarProps) {
   }
 
   return (
-    <Fragment>
+    <div className={classes.root}>
       {DAYS.map((day) => (
         <Card key={day}>
           <Typography variant="h6" gutterBottom>
@@ -76,7 +81,7 @@ function Calendar(props: ICalendarProps) {
           </div>
         </Card>
       ))}
-    </Fragment>
+    </div>
   );
 }
 
