@@ -30,7 +30,7 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build && cra-append-sw ./public/notifications-worker.js",
-    "build:package": "yarn run build && tar -zcvf client-package-local-$npm_package_version.tar.gz build/",
+    "build:package": "yarn run build && tar -zcvf client-package.tar.gz build/",
     "test": "react-scripts test",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "lint:fix": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --fix",
