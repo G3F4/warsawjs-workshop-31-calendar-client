@@ -85,7 +85,7 @@ class App extends Component<IAppProps, IState> {
       <div className={classes.root}>
         <div className={classes.content}>
           <Typography variant="h2" gutterBottom className={classes.header}>
-            {moment(selectedDay).format("MMMM")}
+            {moment(selectedDay).format("MMMM YYYY")}
           </Typography>
           <CalendarContainer selectedDay={selectedDay} onChange={this.handleChangeSelectedDay} />
           <CalendarBar selectedDay={selectedDay} onNext={this.handleNextMonth} onPrev={this.handlePrevMonth} />

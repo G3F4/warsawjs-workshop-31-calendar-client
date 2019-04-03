@@ -21,6 +21,9 @@ const styles = (theme: Theme) => ({
   eventTitle: {
     whiteSpace: "nowrap",
   },
+  outOfMonth: {
+    background: "#ededed",
+  },
   root: {
     display: "grid",
     gridTemplateColumns: "14.28% 14.28% 14.28% 14.28% 14.28% 14.28% 14.28%",
@@ -39,6 +42,7 @@ export interface ICalendarProps extends StyledComponentProps<keyof ReturnType<ty
 }
 
 const isDaySelected = (selectedDay: Moment, date: string) => selectedDay.isSame(moment(date), "day");
+const isDayOutOfMonth = (selectedDay: Moment, date: string) => !selectedDay.isSame(moment(date), "month");
 
 function Calendar(props: ICalendarProps) {
   const { classes, selectedDay, list, onChange } = props;
@@ -61,6 +65,7 @@ function Calendar(props: ICalendarProps) {
           key={date}
           className={classnames({
             [(classes.selected as string)]: isDaySelected(selectedDay, date),
+            [(classes.outOfMonth as string)]: isDayOutOfMonth(selectedDay, date),
           }, classes.day)}
           onClick={() => onChange(date)}
         >
