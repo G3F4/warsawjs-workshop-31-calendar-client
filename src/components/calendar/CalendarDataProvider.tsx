@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core"
+import { Card, Typography } from "@material-ui/core"
 import { StyledComponentProps, Theme, withStyles } from "@material-ui/core/styles";
 // @ts-ignore
 import useFetch from "fetch-suspense";
@@ -19,6 +19,10 @@ const styles = (theme: Theme) => ({
   },
   eventTitle: {
     whiteSpace: "nowrap",
+  },
+  root: {
+    height: theme.spacing.unit * 81,
+    width: "100%",
   },
   selected: {
     background: "#eee",
@@ -70,7 +74,9 @@ function CalendarDataProvider(props: ICalendarDataProviderProps) {
   }
 
   return (
-    <Calendar selectedDay={selectedDay} list={response.data} onChange={onChange} />
+    <Card className={classes.root}>
+      <Calendar selectedDay={selectedDay} list={response.data} onChange={onChange} />
+    </Card>
   );
 }
 

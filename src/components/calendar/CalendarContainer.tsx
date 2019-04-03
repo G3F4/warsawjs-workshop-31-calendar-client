@@ -1,4 +1,3 @@
-import { Card } from "@material-ui/core";
 // @ts-ignore
 import { StyledComponentProps, Theme, withStyles } from "@material-ui/core/styles";
 import { Moment } from "moment-timezone/moment-timezone";
@@ -7,9 +6,6 @@ import ErrorBoundary from "../ErrorBoundary"
 import CalendarDataProvider from "./CalendarDataProvider";
 
 const styles = (theme: Theme) => ({
-  root: {
-    height: theme.spacing.unit * 81,
-  },
   paper: {
     alignItems: "center",
     color: theme.palette.text.secondary,
@@ -17,6 +13,10 @@ const styles = (theme: Theme) => ({
     justifyContent: "center",
     padding: theme.spacing.unit * 2,
     textAlign: "center",
+  },
+  root: {
+    height: theme.spacing.unit * 81,
+    width: "100%",
   },
 });
 
@@ -36,9 +36,7 @@ function CalendarContainer(props: ICalendarContainerProps) {
   return (
     <Suspense fallback={<div className={classes.root}>Loading...</div>}>
       <ErrorBoundary>
-        <Card className={classes.root}>
-            <CalendarDataProvider onChange={onChange} selectedDay={selectedDay} />
-        </Card>
+        <CalendarDataProvider onChange={onChange} selectedDay={selectedDay} />
       </ErrorBoundary>
     </Suspense>
   );

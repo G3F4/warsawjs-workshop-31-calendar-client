@@ -54,7 +54,15 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
   }
 
   public handleClose = () => {
-    this.setState({ open: false });
+    this.setState({
+      event: {
+        description: "",
+        notification: false,
+        time: moment(this.props.selectedDay).format("YYYY-MM-DDThh:mm"),
+        title: "",
+      },
+      open: false,
+    });
   }
 
   public handleEventTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
