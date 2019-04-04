@@ -56,6 +56,14 @@ export interface IAppProps extends StyledComponentProps<keyof ReturnType<typeof 
 }
 
 class App extends Component<IAppProps> {
+  public handleSave = async (event: IDayEvent) => {
+    const { dispatchAddEvent, dispatchFetchCalendar, month } = this.props;
+
+    await dispatchAddEvent(event);
+
+    dispatchFetchCalendar(month);
+  }
+
   public handlePrevMonth = async () => {
     const nextSelectedDay = this.props.selectedDay.subtract(1, "month");
 
@@ -71,7 +79,7 @@ class App extends Component<IAppProps> {
   }
 
   public render() {
-    const { classes, month, selectedDay, dispatchAddEvent } = this.props;
+    const { classes, month, selectedDay } = this.props;
 
     if (!classes) {
       throw new Error(`error loading styles`);
@@ -88,7 +96,7 @@ class App extends Component<IAppProps> {
             selectedDay={selectedDay}
             onNext={this.handleNextMonth}
             onPrev={this.handlePrevMonth}
-            onSave={dispatchAddEvent}
+            onSave={this.handleSave}
           />
           <DayConnect />
         </div>

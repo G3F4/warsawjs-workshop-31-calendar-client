@@ -70,10 +70,10 @@ const fetchDay = (date: string) => (dispatch: any) => {
     .then(({ data }) => dispatch(receiveDay(date, data)));
 };
 
-const addEvent = (event: IDayEvent) => (dispatch: any) => {
+const addEvent = (event: IDayEvent) => async (dispatch: any) => {
   dispatch(requestAddEvent());
 
-  return fetch("event", {
+  const response = await fetch("event", {
     body: JSON.stringify(event),
     credentials: "same-origin",
     headers: {
@@ -81,15 +81,16 @@ const addEvent = (event: IDayEvent) => (dispatch: any) => {
       "Content-Type": "application/json",
     },
     method: "POST",
-  })
-    .then((response) => response.json())
-    .then(({ id }) => dispatch(receiveAddEvent({ id, ...event })));
+  });
+  const { id } = await response.json();
+
+  return dispatch(receiveAddEvent({ id, ...event }));
 };
 
 const updateEvent = (event: IDayEvent) => async (dispatch: any) => {
   dispatch(requestUpdateEvent());
 
-  return fetch(`event?id=${event.id}`, {
+  const response = await fetch(`event?id=${event.id}`, {
     body: JSON.stringify(event),
     credentials: "same-origin",
     headers: {
@@ -97,31 +98,27 @@ const updateEvent = (event: IDayEvent) => async (dispatch: any) => {
       "Content-Type": "application/json",
     },
     method: "PUT",
-  })
-    .then((response) => response.json())
-    .then(({ id }) => dispatch(receiveUpdateEvent({ id, ...event })));
+  });
+  const { id } = await response.json();
+
+  return dispatch(receiveUpdateEvent({ id, ...event }));
 };
 
 const deleteEvent = (eventId: string) => async (dispatch: any) => {
   dispatch(requestDeleteEvent());
 
-  await fetch(`event?id=${eventId}`, { method: "DELETE", credentials: "same-origin" });
+  const response = await fetch(`event?id=${eventId}`, { method: "DELETE", credentials: "same-origin" });
+  const data = await response.json();
 
-  dispatch(receiveDeleteEvent(eventId));
+  dispatch(receiveDeleteEvent(data.id));
+
+  return data;
 };
 
-export const dispatchFetchDay = (date: string) => (dispatch: any) => {
-  return dispatch(fetchDay(date));
-};
+export const dispatchFetchDay = (date: string) => (dispatch: any) => dispatch(fetchDay(date));
 
-export const dispatchDeleteEvent = (eventId: string) => (dispatch: any) => {
-  return dispatch(deleteEvent(eventId));
-};
+export const dispatchDeleteEvent = (eventId: string) => (dispatch: any) => dispatch(deleteEvent(eventId));
 
-export const dispatchAddEvent = (data: IDayEvent) => (dispatch: any) => {
-  return dispatch(addEvent(data));
-};
+export const dispatchAddEvent = (data: IDayEvent) => (dispatch: any) => dispatch(addEvent(data));
 
-export const dispatchUpdateEvent = (data: IDayEvent) => (dispatch: any) => {
-  return dispatch(updateEvent(data));
-};
+export const dispatchUpdateEvent = (data: IDayEvent) => (dispatch: any) => dispatch(updateEvent(data));

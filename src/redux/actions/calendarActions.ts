@@ -1,3 +1,4 @@
+import { IRootReducerState } from "../reducers/rootReducer";
 import { IDay } from "./dayActions";
 
 export const REQUEST_CALENDAR = "REQUEST_CALENDAR";
@@ -18,13 +19,19 @@ export const receiveCalendar = (month: string, data: ICalendarDataProviderRespon
   type: RECEIVE_CALENDAR,
 });
 
-const fetchCalendar = (month: string) => (dispatch: any) => {
+const fetchCalendar = (month: string) => async (dispatch: any) => {
   dispatch(requestCalendar(month));
-  return fetch(`/calendar?month=${month}`, { method: "GET", credentials: "same-origin" })
-    .then((response) => response.json())
-    .then(({ data }) => dispatch(receiveCalendar(month, data)));
+
+  const response = await fetch(`/calendar?month=${month}`, { method: "GET", credentials: "same-origin" });
+  const { data } = await response.json();
+
+  return dispatch(receiveCalendar(month, data));
 };
 
-export const dispatchFetchCalendar = (month: string) => (dispatch: any) => {
+export const dispatchFetchCalendar = (month: string) => (dispatch: any) => dispatch(fetchCalendar(month));
+
+export const dispatchRefetchCalendar = () => (dispatch: any, getState: () => IRootReducerState) => {
+  const { calendar: { month } } = getState();
+
   return dispatch(fetchCalendar(month));
 };

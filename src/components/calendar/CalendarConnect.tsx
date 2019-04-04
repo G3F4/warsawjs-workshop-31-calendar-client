@@ -8,7 +8,7 @@ import Calendar from "./Calendar";
 const mapStateToProps = (state: any) => {
   const { day, calendar } = state;
 
-  console.log(['mapStateToProps.calendar'], calendar, day)
+  console.log(["mapStateToProps.calendar"], calendar, day);
 
   return {
     ...calendar,

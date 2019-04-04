@@ -41,6 +41,7 @@ export interface IDayProps extends StyledComponentProps<keyof ReturnType<typeof 
   dispatchFetchDay(selectedDay: Moment): void;
   dispatchDeleteEvent(eventId: string): void;
   dispatchUpdateEvent(data: IDayEvent): void;
+  dispatchRefetchCalendar(): void;
 }
 
 class Day extends Component<IDayProps> {
@@ -48,8 +49,15 @@ class Day extends Component<IDayProps> {
     this.props.dispatchFetchDay(moment(this.props.date));
   }
 
+  public handleSave = async (event: IDayEvent) => {
+    const { dispatchUpdateEvent, dispatchRefetchCalendar } = this.props;
+
+    await dispatchUpdateEvent(event);
+    dispatchRefetchCalendar();
+  }
+
   public render(): React.ReactNode {
-    const { classes, list = [], dispatchDeleteEvent, dispatchUpdateEvent } = this.props;
+    const { classes, list = [], dispatchDeleteEvent, dispatchRefetchCalendar } = this.props;
 
     if (!classes) {
       throw new Error(`error loading styles`);
@@ -87,11 +95,14 @@ class Day extends Component<IDayProps> {
                   <div className={classes.actions}>
                     <div className={classes.flexGrow} />
                     <div className={classes.deleteButtonWrapper}>
-                      <Fab aria-label="Delete" color="primary" onClick={() => dispatchDeleteEvent(event.id)}>
+                      <Fab aria-label="Delete" color="primary" onClick={async () => {
+                        await dispatchDeleteEvent(event.id);
+                        dispatchRefetchCalendar();
+                      }}>
                         <Delete />
                       </Fab>
                     </div>
-                    <EventEditorDialog event={event} onSave={dispatchUpdateEvent} />
+                    <EventEditorDialog event={event} onSave={this.handleSave} />
                   </div>
                 </Fragment>
               }
