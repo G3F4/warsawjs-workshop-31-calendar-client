@@ -11,7 +11,7 @@ import withMobileDialog from "@material-ui/core/withMobileDialog";
 import { Add, Edit } from "@material-ui/icons";
 import moment, { Moment } from "moment-timezone/moment-timezone";
 import React, { ChangeEvent, Component } from "react";
-import { ICalendarEvent } from "./day/DayDataProvider";
+import { IDayEvent } from "../redux/actions/dayActions";
 
 const styles = (theme: Theme) => ({
   dialogContent: {
@@ -28,14 +28,14 @@ const styles = (theme: Theme) => ({
 
 export interface IEventEditorDialogProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
   fullScreen?: boolean;
-  event?: ICalendarEvent;
+  event?: IDayEvent;
   selectedDay?: Moment;
   fabButtonClassName?: string;
 }
 
 interface IState {
   open: boolean;
-  event: Partial<ICalendarEvent>;
+  event: Partial<IDayEvent>;
 }
 
 class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
@@ -50,7 +50,15 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
   };
 
   public handleClickOpen = () => {
-    this.setState({ open: true });
+    this.setState({
+      event: this.props.event || {
+        description: "",
+        notification: false,
+        time: moment(this.props.selectedDay).format("YYYY-MM-DDThh:mm"),
+        title: "",
+      },
+      open: true,
+    });
   }
 
   public handleClose = () => {

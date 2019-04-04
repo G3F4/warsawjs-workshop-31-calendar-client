@@ -6,10 +6,13 @@
     "@material-ui/core": "3.9.2",
     "@material-ui/icons": "3.0.2",
     "classnames": "2.2.6",
-    "fetch-suspense": "1.0.2",
     "moment-timezone": "0.5.23",
     "react": "16.8.5",
-    "react-dom": "16.8.5"
+    "react-dom": "16.8.5",
+    "react-redux": "6.0.1",
+    "redux": "4.0.1",
+    "redux-logger": "3.0.6",
+    "redux-thunk": "2.3.0"
   },
   "devDependencies": {
     "@types/classnames": "2.2.7",
@@ -18,6 +21,10 @@
     "@types/node": "11.12.0",
     "@types/react": "16.8.10",
     "@types/react-dom": "16.8.3",
+    "@types/react-redux": "7.0.6",
+    "@types/redux": "3.6.0",
+    "@types/redux-logger": "3.0.7",
+    "@types/redux-thunk": "2.1.0",
     "cra-append-sw": "2.6.1",
     "gh-pages": "2.0.1",
     "react-scripts": "2.1.8",

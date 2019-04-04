@@ -2,8 +2,8 @@
 import { StyledComponentProps, Theme, withStyles } from "@material-ui/core/styles";
 import { Moment } from "moment-timezone/moment-timezone";
 import React, { Suspense } from "react";
-import ErrorBoundary from "../ErrorBoundary"
-import CalendarDataProvider from "./CalendarDataProvider";
+import ErrorBoundary from "../ErrorBoundary";
+import CalendarConnect from "./CalendarConnect";
 
 const styles = (theme: Theme) => ({
   paper: {
@@ -36,7 +36,7 @@ function CalendarContainer(props: ICalendarContainerProps) {
   return (
     <Suspense fallback={<div className={classes.root}>Loading...</div>}>
       <ErrorBoundary>
-        <CalendarDataProvider onChange={onChange} selectedDay={selectedDay} />
+        <CalendarConnect onChange={onChange} selectedDay={selectedDay}  />
       </ErrorBoundary>
     </Suspense>
   );

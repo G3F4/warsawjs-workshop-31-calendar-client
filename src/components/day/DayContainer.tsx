@@ -1,9 +1,9 @@
 // @ts-ignore
-import { StyledComponentProps, Theme, withStyles } from "@material-ui/core/styles";
+import { StyledComponentProps, withStyles } from "@material-ui/core/styles";
 import { Moment } from "moment-timezone/moment-timezone";
 import React, { Suspense } from "react";
-import ErrorBoundary from "../ErrorBoundary"
-import DayDataProvider from "./DayDataProvider";
+import ErrorBoundary from "../ErrorBoundary";
+import DayConnect from "./DayConnect";
 
 const styles = () => ({
   root: {
@@ -27,7 +27,7 @@ function DayContainer(props: ICalendarContainerProps) {
     <div className={classes.root}>
       <ErrorBoundary>
         <Suspense fallback="Loading...">
-          <DayDataProvider selectedDay={selectedDay} />
+          <DayConnect selectedDay={selectedDay} />
         </Suspense>
       </ErrorBoundary>
     </div>

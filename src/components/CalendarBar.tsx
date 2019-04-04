@@ -5,7 +5,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { Moment } from "moment";
 import moment from "moment-timezone/moment-timezone";
 import React from "react";
-import { IDay } from "./calendar/CalendarDataProvider";
 import EventEditorDialog from "./EventEditorDialog";
 
 const styles = (theme: Theme) => ({
@@ -28,7 +27,6 @@ const styles = (theme: Theme) => ({
 });
 
 export interface ICalendarBarProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
-  list: IDay[];
   selectedDay: Moment;
 
   onNext(): void;

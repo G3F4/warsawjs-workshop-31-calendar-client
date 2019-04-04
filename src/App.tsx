@@ -46,7 +46,10 @@ const styles = (theme: Theme) => ({
   },
 });
 
-export interface IAppProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {}
+export interface IAppProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
+  dispatchFetchDay(date: Moment): void;
+  dispatchFetchCalendar(date: Moment): void;
+}
 
 interface IState {
   selectedDay: Moment;
@@ -57,19 +60,42 @@ class App extends Component<IAppProps, IState> {
     selectedDay: moment(Date.now()),
   };
 
-  public handleChangeSelectedDay = (date: string) => {
-    this.setState({ selectedDay: moment(date) });
+  public componentWillMount(): void {
+    this.props.dispatchFetchDay(this.state.selectedDay);
+    this.props.dispatchFetchCalendar(this.state.selectedDay);
   }
 
-  public handlePrevMonth = () => {
+  public handleChangeSelectedDay = async (date: string) => {
+    const nextSelectedDay = moment(date);
+
+    if (!nextSelectedDay.isSame(this.state.selectedDay, "day")) {
+      await this.props.dispatchFetchDay(nextSelectedDay);
+
+      this.setState({ selectedDay: nextSelectedDay });
+    }
+
+    if (!nextSelectedDay.isSame(this.state.selectedDay, "month")) {
+      await this.props.dispatchFetchCalendar(nextSelectedDay);
+
+      this.setState({ selectedDay: nextSelectedDay });
+    }
+  }
+
+  public handlePrevMonth = async () => {
+    const nextSelectedDay = this.state.selectedDay.subtract(1, "month");
+
+    await this.props.dispatchFetchCalendar(nextSelectedDay);
     this.setState({
-      selectedDay: this.state.selectedDay.subtract(1, "month"),
+      selectedDay: nextSelectedDay,
     });
   }
 
-  public handleNextMonth = () => {
+  public handleNextMonth = async () => {
+    const nextSelectedDay = this.state.selectedDay.add(1, "month");
+
+    await this.props.dispatchFetchCalendar(nextSelectedDay);
     this.setState({
-      selectedDay: this.state.selectedDay.add(1, "month"),
+      selectedDay: nextSelectedDay,
     });
   }
 

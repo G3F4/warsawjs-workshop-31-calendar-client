@@ -1,5 +1,5 @@
 import { StyledComponentProps, withStyles } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography"
+import Typography from "@material-ui/core/Typography";
 import React, { Component, Fragment } from "react";
 
 const styles = {
