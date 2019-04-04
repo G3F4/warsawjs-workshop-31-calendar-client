@@ -20,7 +20,7 @@ export const receiveCalendar = (month: string, data: ICalendarDataProviderRespon
 
 const fetchCalendar = (month: string) => (dispatch: any) => {
   dispatch(requestCalendar(month));
-  return fetch(`/calendar?month=${month}`)
+  return fetch(`/calendar?month=${month}`, { method: "GET", credentials: "same-origin" })
     .then((response) => response.json())
     .then(({ data }) => dispatch(receiveCalendar(month, data)));
 };

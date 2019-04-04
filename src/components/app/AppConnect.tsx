@@ -1,7 +1,7 @@
 import moment, { Moment } from "moment-timezone/moment-timezone";
 import { connect } from "react-redux";
 import { dispatchFetchCalendar } from "../../redux/actions/calendarActions";
-import { dispatchFetchDay } from "../../redux/actions/dayActions";
+import { dispatchFetchDay, dispatchAddEvent, IDayEvent } from "../../redux/actions/dayActions";
 import { IRootReducerState } from "../../redux/reducers/rootReducer";
 import App from "./App";
 
@@ -21,6 +21,9 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     dispatchFetchCalendar(selectedDay: Moment) {
       return dispatch(dispatchFetchCalendar(selectedDay.format("YYYY-MM")));
+    },
+    dispatchAddEvent(data: IDayEvent) {
+      dispatch(dispatchAddEvent(data));
     },
   };
 };

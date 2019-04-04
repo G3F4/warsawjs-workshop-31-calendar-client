@@ -2,6 +2,7 @@ import { StyledComponentProps, Theme, withStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Moment } from "moment-timezone/moment-timezone";
 import React, { Component } from "react";
+import { IDayEvent } from "../../redux/actions/dayActions";
 import CalendarConnect from "../calendar/CalendarConnect";
 import CalendarBar from "../CalendarBar";
 import DayConnect from "../day/DayConnect";
@@ -51,6 +52,7 @@ export interface IAppProps extends StyledComponentProps<keyof ReturnType<typeof 
 
   dispatchFetchDay(date: Moment): void;
   dispatchFetchCalendar(date: Moment): void;
+  dispatchAddEvent(data: IDayEvent): void;
 }
 
 class App extends Component<IAppProps> {
@@ -69,7 +71,7 @@ class App extends Component<IAppProps> {
   }
 
   public render() {
-    const { classes, month, selectedDay } = this.props;
+    const { classes, month, selectedDay, dispatchAddEvent } = this.props;
 
     if (!classes) {
       throw new Error(`error loading styles`);
@@ -82,7 +84,12 @@ class App extends Component<IAppProps> {
             {month.format("MMMM YYYY")}
           </Typography>
           <CalendarConnect />
-          <CalendarBar selectedDay={selectedDay} onNext={this.handleNextMonth} onPrev={this.handlePrevMonth} />
+          <CalendarBar
+            selectedDay={selectedDay}
+            onNext={this.handleNextMonth}
+            onPrev={this.handlePrevMonth}
+            onSave={dispatchAddEvent}
+          />
           <DayConnect />
         </div>
       </div>

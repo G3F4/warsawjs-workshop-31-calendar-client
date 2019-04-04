@@ -1,6 +1,11 @@
 import { Moment } from "moment";
 import { connect } from "react-redux";
-import { dispatchFetchDay } from "../../redux/actions/dayActions";
+import {
+  dispatchDeleteEvent,
+  dispatchFetchDay,
+  dispatchUpdateEvent,
+  IDayEvent,
+} from "../../redux/actions/dayActions";
 import { IRootReducerState } from "../../redux/reducers/rootReducer";
 import Day from "./Day";
 
@@ -15,7 +20,13 @@ const mapStateToProps = (state: IRootReducerState) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     dispatchFetchDay(selectedDay: Moment) {
-      return dispatch(dispatchFetchDay(selectedDay.format("YYYY-MM-DD")));
+      dispatch(dispatchFetchDay(selectedDay.format("YYYY-MM-DD")));
+    },
+    dispatchDeleteEvent(eventId: string) {
+      dispatch(dispatchDeleteEvent(eventId));
+    },
+    dispatchUpdateEvent(data: IDayEvent) {
+      dispatch(dispatchUpdateEvent(data));
     },
   };
 };

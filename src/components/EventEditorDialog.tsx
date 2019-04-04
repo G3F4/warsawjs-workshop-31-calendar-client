@@ -31,6 +31,8 @@ export interface IEventEditorDialogProps extends StyledComponentProps<keyof Retu
   event?: IDayEvent;
   selectedDay?: Moment;
   fabButtonClassName?: string;
+
+  onSave(data: Partial<IDayEvent>): void;
 }
 
 interface IState {
@@ -109,38 +111,9 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
     });
   }
 
-  public handleSave = async () => {
-    let status: number = 0;
-
-    if (this.props.event) {
-      const response = await fetch(`event?id=${this.props.event.id}`, {
-        body: JSON.stringify(this.state.event),
-        credentials: "same-origin",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "PUT",
-      });
-
-      status = response.status;
-    } else {
-      const response = await fetch("event", {
-        body: JSON.stringify(this.state.event),
-        credentials: "same-origin",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-
-      status = response.status;
-    }
-
-    if (status === 200 || status === 201) {
-      this.handleClose();
-    }
+  public handleSave = () => {
+    this.props.onSave(this.state.event);
+    this.handleClose();
   }
 
   public render() {
