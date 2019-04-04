@@ -1,11 +1,10 @@
 import { StyledComponentProps, Theme, withStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Moment } from "moment-timezone/moment-timezone";
-import moment from "moment-timezone/moment-timezone";
 import React, { Component } from "react";
-import CalendarContainer from "./components/calendar/CalendarContainer";
-import CalendarBar from "./components/CalendarBar";
-import DayContainer from "./components/day/DayContainer";
+import CalendarConnect from "../calendar/CalendarConnect";
+import CalendarBar from "../CalendarBar";
+import DayConnect from "../day/DayConnect";
 
 const styles = (theme: Theme) => ({
   appBar: {
@@ -47,61 +46,30 @@ const styles = (theme: Theme) => ({
 });
 
 export interface IAppProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
+  month: Moment;
+  selectedDay: Moment;
+
   dispatchFetchDay(date: Moment): void;
   dispatchFetchCalendar(date: Moment): void;
 }
 
-interface IState {
-  selectedDay: Moment;
-}
-
-class App extends Component<IAppProps, IState> {
-  public state: IState = {
-    selectedDay: moment(Date.now()),
-  };
-
-  public componentWillMount(): void {
-    this.props.dispatchFetchDay(this.state.selectedDay);
-    this.props.dispatchFetchCalendar(this.state.selectedDay);
-  }
-
-  public handleChangeSelectedDay = async (date: string) => {
-    const nextSelectedDay = moment(date);
-
-    if (!nextSelectedDay.isSame(this.state.selectedDay, "day")) {
-      await this.props.dispatchFetchDay(nextSelectedDay);
-
-      this.setState({ selectedDay: nextSelectedDay });
-    }
-
-    if (!nextSelectedDay.isSame(this.state.selectedDay, "month")) {
-      await this.props.dispatchFetchCalendar(nextSelectedDay);
-
-      this.setState({ selectedDay: nextSelectedDay });
-    }
-  }
-
+class App extends Component<IAppProps> {
   public handlePrevMonth = async () => {
-    const nextSelectedDay = this.state.selectedDay.subtract(1, "month");
+    const nextSelectedDay = this.props.selectedDay.subtract(1, "month");
 
     await this.props.dispatchFetchCalendar(nextSelectedDay);
-    this.setState({
-      selectedDay: nextSelectedDay,
-    });
+    await this.props.dispatchFetchDay(nextSelectedDay);
   }
 
   public handleNextMonth = async () => {
-    const nextSelectedDay = this.state.selectedDay.add(1, "month");
+    const nextSelectedDay = this.props.selectedDay.add(1, "month");
 
     await this.props.dispatchFetchCalendar(nextSelectedDay);
-    this.setState({
-      selectedDay: nextSelectedDay,
-    });
+    await this.props.dispatchFetchDay(nextSelectedDay);
   }
 
   public render() {
-    const { classes } = this.props;
-    const { selectedDay } = this.state;
+    const { classes, month, selectedDay } = this.props;
 
     if (!classes) {
       throw new Error(`error loading styles`);
@@ -111,11 +79,11 @@ class App extends Component<IAppProps, IState> {
       <div className={classes.root}>
         <div className={classes.content}>
           <Typography variant="h2" gutterBottom className={classes.header}>
-            {moment(selectedDay).format("MMMM YYYY")}
+            {month.format("MMMM YYYY")}
           </Typography>
-          <CalendarContainer selectedDay={selectedDay} onChange={this.handleChangeSelectedDay} />
+          <CalendarConnect />
           <CalendarBar selectedDay={selectedDay} onNext={this.handleNextMonth} onPrev={this.handlePrevMonth} />
-          <DayContainer selectedDay={selectedDay} />
+          <DayConnect />
         </div>
       </div>
     );

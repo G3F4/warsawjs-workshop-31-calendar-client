@@ -1,17 +1,15 @@
-import { Moment } from "moment";
-import moment from "moment-timezone/moment-timezone";
+import moment, { Moment } from "moment-timezone/moment-timezone";
 import { connect } from "react-redux";
 import { dispatchFetchCalendar } from "../../redux/actions/calendarActions";
 import { dispatchFetchDay } from "../../redux/actions/dayActions";
-import Calendar from "./Calendar";
+import { IRootReducerState } from "../../redux/reducers/rootReducer";
+import App from "./App";
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IRootReducerState) => {
   const { day, calendar } = state;
 
-  console.log(['mapStateToProps.calendar'], calendar, day)
-
   return {
-    ...calendar,
+    month: moment(calendar.month),
     selectedDay: moment(day.date),
   };
 };
@@ -27,4 +25,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

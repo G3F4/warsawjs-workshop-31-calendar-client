@@ -1,8 +1,13 @@
 import { combineReducers } from "redux";
-import calendarReducer from "./calendarReducer";
-import dayReducer from "./dayReducer";
+import calendarReducer, { ICalendarReducerState } from "./calendarReducer";
+import dayReducer, { IDayReducerState } from "./dayReducer";
 
-const rootReducer = combineReducers({
+export interface IRootReducerState {
+  calendar: ICalendarReducerState;
+  day: IDayReducerState;
+}
+
+const rootReducer = combineReducers<IRootReducerState>({
   calendar: calendarReducer,
   day: dayReducer,
 });

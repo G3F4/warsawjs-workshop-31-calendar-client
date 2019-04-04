@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import AppConnect from "./AppConnect";
+import AppConnect from "./components/app/AppConnect";
 import "./index.css";
 import store from "./redux/store";
 import registerSubscription from "./registerSubscription";

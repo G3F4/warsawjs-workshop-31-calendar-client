@@ -7,7 +7,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { StyledComponentProps, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Delete } from "@material-ui/icons";
-import moment, { Moment } from "moment-timezone/moment-timezone";
+import { Moment } from "moment";
+import moment from "moment-timezone/moment-timezone";
 import React, { Component, Fragment } from "react";
 import { IDayEvent } from "../../redux/actions/dayActions";
 import EventEditorDialog from "../EventEditorDialog";
@@ -34,11 +35,19 @@ const styles = (theme: Theme) => ({
 
 export interface IDayProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
   isFetching?: boolean;
-  selectedDay?: Moment;
   list?: IDayEvent[];
+  date?: string;
+
+  dispatchFetchDay?(selectedDay: Moment): void;
 }
 
 class Day extends Component<IDayProps> {
+  public componentDidMount(): void {
+    if (this.props.dispatchFetchDay) {
+      this.props.dispatchFetchDay(moment(this.props.date));
+    }
+  }
+
   public render(): React.ReactNode {
     const { classes, list = [] } = this.props;
 

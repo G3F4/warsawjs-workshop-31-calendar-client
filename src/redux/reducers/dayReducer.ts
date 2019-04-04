@@ -1,8 +1,14 @@
 import moment from "moment-timezone/moment-timezone";
 import { RECEIVE_DAY, REQUEST_DAY } from "../actions/dayActions";
 
+export interface IDayReducerState {
+  isFetching: boolean;
+  list: any[];
+  date: string;
+}
+
 export default function dayReducer(
-  state = {
+  state: IDayReducerState = {
     date: moment(Date.now()).format("YYYY-MM-DD"),
     isFetching: false,
     list: [],

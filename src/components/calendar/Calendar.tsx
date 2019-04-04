@@ -42,17 +42,31 @@ const styles = (theme: Theme) => ({
 export interface ICalendarProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
   isFetching?: boolean;
   list?: IDay[];
-  selectedDay: Moment;
+  selectedDay?: Moment;
+  month?: Moment;
 
-  onChange(date: string): void;
+  dispatchFetchDay(date: Moment): void;
+  dispatchFetchCalendar(date: Moment): void;
 }
 
 const isDaySelected = (selectedDay: Moment, date: string) => selectedDay.isSame(moment(date), "day");
 const isDayOutOfMonth = (selectedDay: Moment, date: string) => !selectedDay.isSame(moment(date), "month");
 
 class Calendar extends Component<ICalendarProps> {
+  public componentDidMount(): void {
+    this.props.dispatchFetchCalendar(moment(Date.now()));
+  }
+
+  public handleSelectedDayChange(date: string): void {
+    this.props.dispatchFetchDay(moment(date));
+
+    if (!moment(date).isSame(this.props.month, "month")) {
+      this.props.dispatchFetchCalendar(moment(date));
+    }
+  }
+
   public render(): React.ReactNode {
-    const { classes, selectedDay, list = [], onChange } = this.props;
+    const { classes, selectedDay = moment(Date.now()), list = [], month } = this.props;
 
     if (!classes) {
       throw new Error(`error loading styles`);
@@ -80,9 +94,9 @@ class Calendar extends Component<ICalendarProps> {
             key={date}
             className={classnames({
               [(classes.selected as string)]: isDaySelected(selectedDay, date),
-              [(classes.outOfMonth as string)]: isDayOutOfMonth(selectedDay, date),
+              [(classes.outOfMonth as string)]: isDayOutOfMonth(moment(month), date),
             }, classes.day)}
-            onClick={() => onChange(date)}
+            onClick={() => this.handleSelectedDayChange(date)}
           >
             <Typography variant="h6" gutterBottom>
               {moment(date).format("DD")}

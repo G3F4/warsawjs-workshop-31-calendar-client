@@ -1,8 +1,14 @@
 import moment from "moment-timezone/moment-timezone";
 import { RECEIVE_CALENDAR, REQUEST_CALENDAR } from "../actions/calendarActions";
 
+export interface ICalendarReducerState {
+  isFetching: boolean;
+  list: any[];
+  month: string;
+}
+
 export default function calendarReducer(
-  state = {
+  state: ICalendarReducerState = {
     isFetching: false,
     list: [],
     month: moment(Date.now()).format("YYYY-MM"),
