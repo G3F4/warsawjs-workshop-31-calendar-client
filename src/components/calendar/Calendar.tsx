@@ -40,10 +40,11 @@ const styles = (theme: Theme) => ({
 });
 
 export interface ICalendarProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
-  isFetching?: boolean;
-  list?: IDay[];
-  selectedDay?: Moment;
-  month?: Moment;
+  error: any;
+  isFetching: boolean;
+  list: IDay[];
+  selectedDay: Moment;
+  month: Moment;
 
   dispatchFetchDay(date: Moment): void;
   dispatchFetchCalendar(date: Moment): void;
@@ -66,16 +67,24 @@ class Calendar extends Component<ICalendarProps> {
   }
 
   public render(): React.ReactNode {
-    const { classes, selectedDay = moment(Date.now()), list = [], month } = this.props;
+    const { classes, error, isFetching, selectedDay = moment(Date.now()), list = [], month } = this.props;
 
     if (!classes) {
       throw new Error(`error loading styles`);
     }
 
-    if (this.props.isFetching) {
+    if (isFetching) {
       return (
         <div className={classes.loader}>
           Loading...
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className={classes.loader}>
+          {error}
         </div>
       );
     }

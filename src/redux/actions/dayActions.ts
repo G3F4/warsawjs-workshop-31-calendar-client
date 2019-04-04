@@ -6,6 +6,7 @@ export const REQUEST_DELETE_EVENT = "REQUEST_DELETE_EVENT";
 export const RECEIVE_DELETE_EVENT = "RECEIVE_DELETE_EVENT";
 export const REQUEST_DAY = "REQUEST_DAY";
 export const RECEIVE_DAY = "RECEIVE_DAY";
+export const RECEIVE_DAY_ERROR = "RECEIVE_DAY_ERROR";
 
 export interface IDayEvent {
   id: string;
@@ -35,6 +36,11 @@ export const receiveDay = (date: string, data: IDayDataProviderResponse) => ({
   type: RECEIVE_DAY,
 });
 
+export const receiveDayError = (error: any) => ({
+  error,
+  type: RECEIVE_DAY_ERROR,
+});
+
 export const requestAddEvent = () => ({
   type: REQUEST_ADD_EVENT,
 });
@@ -62,12 +68,23 @@ export const receiveDeleteEvent = (deletedEventId: string) => ({
   type: RECEIVE_DELETE_EVENT,
 });
 
-const fetchDay = (date: string) => (dispatch: any) => {
+const fetchDay = (date: string) => async (dispatch: any) => {
   dispatch(requestDay(date));
 
-  return fetch(`/day?date=${date}`, { method: "GET", credentials: "same-origin" })
-    .then((response) => response.json())
-    .then(({ data }) => dispatch(receiveDay(date, data)));
+  try {
+    const response = await fetch(`/day?date=${date}`, { method: "GET", credentials: "same-origin" });
+
+    if (response.status >= 200 && response.status <= 300) {
+      const { data } = await response.json();
+
+      return dispatch(receiveDay(date, data));
+    }
+    const text = await response.text();
+
+    return dispatch(receiveDayError(text));
+  } catch (e) {
+    return dispatch(receiveDayError(e));
+  }
 };
 
 const addEvent = (event: IDayEvent) => async (dispatch: any) => {

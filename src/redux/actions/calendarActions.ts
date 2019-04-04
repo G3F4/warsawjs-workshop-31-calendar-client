@@ -3,6 +3,7 @@ import { IDay } from "./dayActions";
 
 export const REQUEST_CALENDAR = "REQUEST_CALENDAR";
 export const RECEIVE_CALENDAR = "RECEIVE_CALENDAR";
+export const RECEIVE_CALENDAR_ERROR = "RECEIVE_CALENDAR_ERROR";
 
 export interface ICalendarDataProviderResponse {
   data: IDay[];
@@ -19,13 +20,28 @@ export const receiveCalendar = (month: string, data: ICalendarDataProviderRespon
   type: RECEIVE_CALENDAR,
 });
 
+export const receiveCalendarError = (error: any) => ({
+  error,
+  type: RECEIVE_CALENDAR_ERROR,
+});
+
 const fetchCalendar = (month: string) => async (dispatch: any) => {
   dispatch(requestCalendar(month));
 
-  const response = await fetch(`/calendar?month=${month}`, { method: "GET", credentials: "same-origin" });
-  const { data } = await response.json();
+  try {
+    const response = await fetch(`/calendar?month=${month}`, { method: "GET", credentials: "same-origin" });
 
-  return dispatch(receiveCalendar(month, data));
+    if (response.status >= 200 && response.status <= 300) {
+      const { data } = await response.json();
+
+      return dispatch(receiveCalendar(month, data));
+    }
+    const text = await response.text();
+
+    return dispatch(receiveCalendarError(text));
+  } catch (e) {
+    return dispatch(receiveCalendarError(e));
+  }
 };
 
 export const dispatchFetchCalendar = (month: string) => (dispatch: any) => dispatch(fetchCalendar(month));

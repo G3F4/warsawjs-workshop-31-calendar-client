@@ -34,9 +34,10 @@ const styles = (theme: Theme) => ({
 });
 
 export interface IDayProps extends StyledComponentProps<keyof ReturnType<typeof styles>> {
-  isFetching?: boolean;
-  list?: IDayEvent[];
-  date?: string;
+  error: any;
+  isFetching: boolean;
+  list: IDayEvent[];
+  date: string;
 
   dispatchFetchDay(selectedDay: Moment): void;
   dispatchDeleteEvent(eventId: string): void;
@@ -57,16 +58,24 @@ class Day extends Component<IDayProps> {
   }
 
   public render(): React.ReactNode {
-    const { classes, list = [], dispatchDeleteEvent, dispatchRefetchCalendar } = this.props;
+    const { classes, error, isFetching, list = [], dispatchDeleteEvent, dispatchRefetchCalendar } = this.props;
 
     if (!classes) {
       throw new Error(`error loading styles`);
     }
 
-    if (this.props.isFetching) {
+    if (isFetching) {
       return (
         <div className={classes.loader}>
           Loading...
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className={classes.loader}>
+          {error}
         </div>
       );
     }
