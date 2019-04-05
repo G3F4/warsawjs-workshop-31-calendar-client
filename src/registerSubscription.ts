@@ -1,8 +1,7 @@
-const publicVapidKey = "BJthRQ5myDgc7OSXzPCMftGw-n16F7zQBEN7EUD6XxcfTTvrLGWSIG7y_JxiWtVlCFua0S8MTB5rPziBqNx1qIo";
+const publicVapidKey = "BBSBOIj17PEWrpy6vO6DI0voM1186Mv3VKaD2k91fCnKD1F8uEo6LMIk-aqSx3sF-glNrHYE1cpcA1YowLyh4BY";
 
 export default async function registerSubscription(
   register: ServiceWorkerRegistration,
-  options?: { silent: boolean },
 ) {
   try {
     const data = await register.pushManager.subscribe({
@@ -13,7 +12,6 @@ export default async function registerSubscription(
     await fetch(`/notifications`, {
       body: JSON.stringify({
         data,
-        options,
       }),
       credentials: "same-origin",
       headers: {
@@ -27,10 +25,10 @@ export default async function registerSubscription(
   }
 }
 
-function urlBase64ToUint8Array(base64String: string) {
+function urlBase64ToUint8Array(base64String: any) {
   const padding = "=".repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
-    .replace(/\-/g, "+")// eslint-disable-line no-useless-escape
+    .replace(/-/g, "+")
     .replace(/_/g, "/");
 
   const rawData = window.atob(base64);

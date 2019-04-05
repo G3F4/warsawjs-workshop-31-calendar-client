@@ -8,8 +8,6 @@ import Calendar from "./Calendar";
 const mapStateToProps = (state: any) => {
   const { day, calendar } = state;
 
-  console.log(["mapStateToProps.calendar"], calendar, day);
-
   return {
     ...calendar,
     selectedDay: moment(day.date),
