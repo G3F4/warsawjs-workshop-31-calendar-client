@@ -72,7 +72,7 @@ const fetchDay = (date: string) => async (dispatch: any) => {
   dispatch(requestDay(date));
 
   try {
-    const response = await fetch(`/day?date=${date}`, { method: "GET", credentials: "same-origin" });
+    const response = await fetch(`/api/day?date=${date}`, { method: "GET", credentials: "same-origin" });
 
     if (response.status >= 200 && response.status <= 300) {
       const { data } = await response.json();
@@ -90,7 +90,7 @@ const fetchDay = (date: string) => async (dispatch: any) => {
 const addEvent = (event: IDayEvent) => async (dispatch: any) => {
   dispatch(requestAddEvent());
 
-  const response = await fetch("event", {
+  const response = await fetch("/api/event", {
     body: JSON.stringify(event),
     credentials: "same-origin",
     headers: {
@@ -107,7 +107,7 @@ const addEvent = (event: IDayEvent) => async (dispatch: any) => {
 const updateEvent = (event: IDayEvent) => async (dispatch: any) => {
   dispatch(requestUpdateEvent());
 
-  const response = await fetch(`event?id=${event.id}`, {
+  const response = await fetch(`/api/event/${event.id}`, {
     body: JSON.stringify(event),
     credentials: "same-origin",
     headers: {
@@ -124,7 +124,7 @@ const updateEvent = (event: IDayEvent) => async (dispatch: any) => {
 const deleteEvent = (eventId: string) => async (dispatch: any) => {
   dispatch(requestDeleteEvent());
 
-  const response = await fetch(`event?id=${eventId}`, { method: "DELETE", credentials: "same-origin" });
+  const response = await fetch(`/api/event/${eventId}`, { method: "DELETE", credentials: "same-origin" });
   const data = await response.json();
 
   dispatch(receiveDeleteEvent(data.id));

@@ -29,7 +29,7 @@ const fetchCalendar = (month: string) => async (dispatch: any) => {
   dispatch(requestCalendar(month));
 
   try {
-    const response = await fetch(`/calendar?month=${month}`, { method: "GET", credentials: "same-origin" });
+    const response = await fetch(`/api/calendar?month=${month}`, { method: "GET", credentials: "same-origin" });
 
     if (response.status >= 200 && response.status <= 300) {
       const { data } = await response.json();

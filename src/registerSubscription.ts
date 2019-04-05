@@ -9,7 +9,7 @@ export default async function registerSubscription(
       userVisibleOnly: true,
     });
 
-    await fetch(`/notifications`, {
+    await fetch(`/api/notifications`, {
       body: JSON.stringify({
         data,
       }),
