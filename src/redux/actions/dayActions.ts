@@ -1,3 +1,5 @@
+import ENV from "../../env";
+
 export const REQUEST_ADD_EVENT = "REQUEST_ADD_EVENT";
 export const RECEIVE_ADD_EVENT = "RECEIVE_ADD_EVENT";
 export const REQUEST_UPDATE_EVENT = "REQUEST_UPDATE_EVENT";
@@ -9,7 +11,7 @@ export const RECEIVE_DAY = "RECEIVE_DAY";
 export const RECEIVE_DAY_ERROR = "RECEIVE_DAY_ERROR";
 
 // @ts-ignore
-const URL = process.env.REACT_APP_API_URL;
+const URL = ENV.API_URL;
 
 export interface IDayEvent {
   id: string;

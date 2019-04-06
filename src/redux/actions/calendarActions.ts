@@ -1,3 +1,4 @@
+import ENV from "../../env";
 import { IRootReducerState } from "../reducers/rootReducer";
 import { IDay } from "./dayActions";
 
@@ -6,7 +7,7 @@ export const RECEIVE_CALENDAR = "RECEIVE_CALENDAR";
 export const RECEIVE_CALENDAR_ERROR = "RECEIVE_CALENDAR_ERROR";
 
 // @ts-ignore
-const URL = process.env.REACT_APP_API_URL;
+const URL = ENV.API_URL;
 
 export interface ICalendarDataProviderResponse {
   data: IDay[];
