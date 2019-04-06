@@ -6,9 +6,6 @@ import "./index.css";
 import store from "./redux/store";
 import registerSubscription from "./registerSubscription";
 import * as serviceWorker from "./serviceWorker";
-const config = require("dotenv").config();
-
-console.log(['config'], config)
 
 ReactDOM.render(
   <Provider store={store}>

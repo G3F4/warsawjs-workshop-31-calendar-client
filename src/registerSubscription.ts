@@ -1,6 +1,8 @@
+import ENV from "./env";
+
 const publicVapidKey = process.env.REACT_APP_PUBLIC_VAPID_KEY;
 // @ts-ignore
-const URL = process.env.REACT_APP_API_URL;
+const URL = ENV.API_URL;
 
 export default async function registerSubscription(
   register: ServiceWorkerRegistration,
