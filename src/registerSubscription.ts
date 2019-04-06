@@ -1,4 +1,6 @@
-const publicVapidKey = "BBSBOIj17PEWrpy6vO6DI0voM1186Mv3VKaD2k91fCnKD1F8uEo6LMIk-aqSx3sF-glNrHYE1cpcA1YowLyh4BY";
+const publicVapidKey = process.env.REACT_APP_PUBLIC_VAPID_KEY;
+// @ts-ignore
+const URL = process.env.REACT_APP_API_URL;
 
 export default async function registerSubscription(
   register: ServiceWorkerRegistration,
@@ -9,7 +11,8 @@ export default async function registerSubscription(
       userVisibleOnly: true,
     });
 
-    await fetch(`/api/notifications`, {
+    // @ts-ignore
+    await fetch(`${URL}/notifications`, {
       body: JSON.stringify({
         data,
       }),

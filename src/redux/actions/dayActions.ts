@@ -8,6 +8,9 @@ export const REQUEST_DAY = "REQUEST_DAY";
 export const RECEIVE_DAY = "RECEIVE_DAY";
 export const RECEIVE_DAY_ERROR = "RECEIVE_DAY_ERROR";
 
+// @ts-ignore
+const URL = process.env.REACT_APP_API_URL;
+
 export interface IDayEvent {
   id: string;
   title: string;
@@ -72,7 +75,8 @@ const fetchDay = (date: string) => async (dispatch: any) => {
   dispatch(requestDay(date));
 
   try {
-    const response = await fetch(`/api/day?date=${date}`, { method: "GET", credentials: "same-origin" });
+    // @ts-ignore
+    const response = await fetch(`${URL}/day?date=${date}`, { method: "GET", credentials: "same-origin" });
 
     if (response.status >= 200 && response.status <= 300) {
       const { data } = await response.json();
@@ -90,7 +94,8 @@ const fetchDay = (date: string) => async (dispatch: any) => {
 const addEvent = (event: IDayEvent) => async (dispatch: any) => {
   dispatch(requestAddEvent());
 
-  const response = await fetch("/api/event", {
+  // @ts-ignore
+  const response = await fetch(`${URL}/event`, {
     body: JSON.stringify(event),
     credentials: "same-origin",
     headers: {
@@ -107,7 +112,8 @@ const addEvent = (event: IDayEvent) => async (dispatch: any) => {
 const updateEvent = (event: IDayEvent) => async (dispatch: any) => {
   dispatch(requestUpdateEvent());
 
-  const response = await fetch(`/api/event/${event.id}`, {
+  // @ts-ignore
+  const response = await fetch(`${URL}/event/${event.id}`, {
     body: JSON.stringify(event),
     credentials: "same-origin",
     headers: {
@@ -124,7 +130,8 @@ const updateEvent = (event: IDayEvent) => async (dispatch: any) => {
 const deleteEvent = (eventId: string) => async (dispatch: any) => {
   dispatch(requestDeleteEvent());
 
-  const response = await fetch(`/api/event/${eventId}`, { method: "DELETE", credentials: "same-origin" });
+  // @ts-ignore
+  const response = await fetch(`${URL}/event/${eventId}`, { method: "DELETE", credentials: "same-origin" });
   const data = await response.json();
 
   dispatch(receiveDeleteEvent(data.id));

@@ -5,6 +5,9 @@ export const REQUEST_CALENDAR = "REQUEST_CALENDAR";
 export const RECEIVE_CALENDAR = "RECEIVE_CALENDAR";
 export const RECEIVE_CALENDAR_ERROR = "RECEIVE_CALENDAR_ERROR";
 
+// @ts-ignore
+const URL = process.env.REACT_APP_API_URL;
+
 export interface ICalendarDataProviderResponse {
   data: IDay[];
 }
@@ -29,7 +32,8 @@ const fetchCalendar = (month: string) => async (dispatch: any) => {
   dispatch(requestCalendar(month));
 
   try {
-    const response = await fetch(`/api/calendar?month=${month}`, { method: "GET", credentials: "same-origin" });
+    // @ts-ignore
+    const response = await fetch(`${URL}/calendar?month=${month}`, { method: "GET", credentials: "same-origin" });
 
     if (response.status >= 200 && response.status <= 300) {
       const { data } = await response.json();
