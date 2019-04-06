@@ -89,7 +89,7 @@ const fetchDay = (date: string) => async (dispatch: any) => {
 
     return dispatch(receiveDayError(text));
   } catch (e) {
-    return dispatch(receiveDayError(e));
+    return dispatch(receiveDayError(e.message));
   }
 };
 

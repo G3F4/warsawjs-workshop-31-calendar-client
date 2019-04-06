@@ -45,7 +45,7 @@ const fetchCalendar = (month: string) => async (dispatch: any) => {
 
     return dispatch(receiveCalendarError(text));
   } catch (e) {
-    return dispatch(receiveCalendarError(e));
+    return dispatch(receiveCalendarError(e.message));
   }
 };
 
