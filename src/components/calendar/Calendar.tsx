@@ -114,11 +114,11 @@ class Calendar extends Component<ICalendarProps> {
               {Array.from({ length: 3 }).map((_, index) => (
                 <Typography
                   variant="caption"
-                  key={events[index] ? events[index].id : index}
+                  key={events && events[index] ? events[index].id : index}
                   className={classes.eventTitle}
                   gutterBottom
                 >
-                  {events[index] ? events[index].title : <div>&nbsp;</div>}
+                  {events && events[index] ? events[index].title : <div>&nbsp;</div>}
                 </Typography>
               ))}
             </div>
