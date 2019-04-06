@@ -15,6 +15,8 @@ yarn run build:package
 
 ### Development
 To start local development:
+
+* create `.env.development` and `.env.production` based od `.env.example`
 ```
 yarn start
 ```
