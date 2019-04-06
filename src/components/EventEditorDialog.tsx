@@ -45,7 +45,7 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
     event: this.props.event || {
       description: "",
       notification: false,
-      time: moment(this.props.selectedDay).format("YYYY-MM-DDThh:mm"),
+      time: moment(this.props.selectedDay).format("YYYY-MM-DDTHH:mm"),
       title: "",
     },
     open: false,
@@ -56,7 +56,7 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
       event: this.props.event || {
         description: "",
         notification: false,
-        time: moment(this.props.selectedDay).format("YYYY-MM-DDThh:mm"),
+        time: moment(this.props.selectedDay).format("YYYY-MM-DDTHH:mm"),
         title: "",
       },
       open: true,
@@ -68,7 +68,7 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
       event: {
         description: "",
         notification: false,
-        time: moment(this.props.selectedDay).format("YYYY-MM-DDThh:mm"),
+        time: moment(this.props.selectedDay).format("YYYY-MM-DDTHH:mm"),
         title: "",
       },
       open: false,
@@ -79,7 +79,7 @@ class EventEditorDialog extends Component<IEventEditorDialogProps, IState> {
     this.setState({
       event: {
         ...this.state.event,
-        time: moment(event.target.value).format("YYYY-MM-DDThh:mm"),
+        time: moment(event.target.value).format("YYYY-MM-DDTHH:mm"),
       },
     });
   }
